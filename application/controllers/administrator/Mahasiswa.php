@@ -2,77 +2,82 @@
 
 defined('BASEPATH') or exit('Not Allowed Direct Access');
 
-class Mahasiswa extends CI_Controller{
+class Mahasiswa extends CI_Controller
+{
 
     public function __construct()
     {
-        parent:: __construct();
+        parent::__construct();
         $this->load->model('mahasiswa_model');
+        if (!isset($this->session->userdata['username'])) {
+            redirect(base_url());
+        }
     }
 
-    public function index(){
+    public function index()
+    {
         $this->data['mahasiswa'] = $this->mahasiswa_model->getdata();
         $this->data['title'] = 'Data Mahasiswa';
 
-        $this->template->load('mahasiswa/list-mahasiswa',$this->data);
-        
+        $this->template->load('mahasiswa/list-mahasiswa', $this->data);
     }
 
-    public function add(){
+    public function add()
+    {
         $this->data['title'] = 'Tambah Data';
         $this->template->load('mahasiswa/add', $this->data);
     }
 
-    public function add_save(){
+    public function add_save()
+    {
 
-        $data =array(
+        $data = array(
             'nama_mahasiswa' => $this->input->post('nama_mahasiswa'),
             'kota_asal'     => $this->input->post('kota_asal'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir')
 
         );
 
-        $simpan = $this->db->insert('mahasiswa',$data);
+        $simpan = $this->db->insert('mahasiswa', $data);
 
-        
-        if($simpan){
+
+        if ($simpan) {
             redirect('administrator/mahasiswa');
-        }
-        else{
+        } else {
             echo "Tidak Bisa Input Data";
         }
-
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $this->data['mahasiswa'] = $this->mahasiswa_model->edit($id);
         $this->data['title']    = 'Edit Data';
-        $this->template->load('mahasiswa/edit',$this->data);
+        $this->template->load('mahasiswa/edit', $this->data);
     }
 
-    public function edit_save(){
-        $data= array(
+    public function edit_save()
+    {
+        $data = array(
             'nama_mahasiswa'    => $this->input->post('nama_mahasiswa'),
             'kota_asal'     => $this->input->post('kota_asal'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir')
         );
-        $update = $this->mahasiswa_model->edit_save($data,$this->input->post('id'));
-        if($update){
+        $update = $this->mahasiswa_model->edit_save($data, $this->input->post('id'));
+        if ($update) {
             echo "<script>alert('Data berhasil dirubah')</script>";
             redirect('administrator/mahasiswa');
-        }
-        else{
+        } else {
             echo "Data tidak bisa dirubah";
         }
     }
 
 
-    public function hapus($id){
+    public function hapus($id)
+    {
         $del = $this->mahasiswa_model->delete($id);
-        if($del){
+        if ($del) {
             redirect('administrator/mahasiswa');
-        }
-        else{
+        } else {
             echo "Data salah dihapus";
         }
     }

@@ -19,7 +19,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login #04</h2>
+					<h2 class="heading-section">Login Aplikasi SIB Arkatama</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -39,7 +39,9 @@
 									</p>
 								</div>
 							</div>
-							<?= form_open('login/cekproses') ?>
+
+							<h6><i><?= $this->session->flashdata('failed'); ?></i></h6>
+							<?= form_open('login/proses_login') ?>
 							<form action="#" class="signin-form">
 								<div class="form-group mb-3">
 									<label class="label" for="name">Username</label>
@@ -65,6 +67,7 @@
 								</div>
 							</form>
 							<?= form_close() ?>
+
 							<p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
 						</div>
 					</div>
